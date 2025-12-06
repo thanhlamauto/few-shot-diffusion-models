@@ -108,6 +108,8 @@ def sample_loop(p_state, modules, cfg, loader, num_batches, rng, use_ddim, eta):
 def main():
     args = create_argparser().parse_args()
     set_seed(getattr(args, "seed", 0))
+    if not hasattr(args, "model_path"):
+        args.model_path = ""
 
     if args.use_wandb:
         wandb.init(
