@@ -24,10 +24,10 @@ PRNGKey = jax.Array
 ModelApply = Callable[..., Array]
 
 
-@dataclass
 class TrainState(train_state.TrainState):
     """
     Extends Flax TrainState to also keep EMA parameters.
+    Flax TrainState is frozen; inherit without @dataclass.
     """
     ema_params: Any
 
@@ -147,7 +147,6 @@ def sample(
 # ----------------------- Pmap multi-device utilities ----------------------- #
 
 
-@dataclass
 class TrainStatePmap:
     """
     Pmap-friendly train state holding params, EMA params, opt state, and step.
