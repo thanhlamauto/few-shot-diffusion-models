@@ -471,13 +471,22 @@ def configure(dir=None, format_strs=None, comm=None, log_suffix="", mode="traini
     date_str = None
     name = ""
     if args is not None:
-        sigma=""
-        if args.learn_sigma:
+        sigma = ""
+        if getattr(args, "learn_sigma", False):
             sigma = "sigma"
-        lst_name = [args.dataset, args.model, args.encoder_mode, args.mode_conditioning, args.pool, sigma, args.mode_context, tag]
-        lst_name = [ i for i in lst_name if i not in ["", None, "None", "none"] ]
-        name="_".join(lst_name)
-        if mode not in ["training", "tmp"]:
+        lst_name = [
+            getattr(args, "dataset", None),
+            getattr(args, "model", None),
+            getattr(args, "encoder_mode", None),
+            getattr(args, "mode_conditioning", None),
+            getattr(args, "pool", None),
+            sigma,
+            getattr(args, "mode_context", None),
+            tag,
+        ]
+        lst_name = [i for i in lst_name if i not in ["", None, "None", "none"]]
+        name = "_".join(lst_name)
+        if mode not in ["training", "tmp"] and getattr(args, "model_path", ""):
             tmp = args.model_path.split("/")[-2]
             tmp = tmp.split("-")
             tmp[0] = mode
@@ -499,7 +508,7 @@ def configure(dir=None, format_strs=None, comm=None, log_suffix="", mode="traini
         
         writer_wb = None
         date=""
-        if mode == "training":
+        if mode in ["training", "training_jax"]:
             date = datetime.datetime.now().strftime("run-%Y-%m-%d-%H-%M-%S-%f")
             dir = osp.join(dir, name, date)
             writer_wb = wandb.init(dir="./", name=name + "-" + date, config=args)
