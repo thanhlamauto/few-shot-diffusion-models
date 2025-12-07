@@ -8,13 +8,13 @@ Notes:
 - Expected model signature matches DiT.__call__(x, t, c=None, y=None, train=False).
 """
 
-from dataclasses import dataclass
 from typing import Any, Callable, Dict, Optional, Tuple
 
 import jax
 import jax.numpy as jnp
 import optax
 from flax.training import train_state
+from flax import struct
 
 from .nn_jax import update_ema, mean_flat
 
@@ -147,7 +147,7 @@ def sample(
 # ----------------------- Pmap multi-device utilities ----------------------- #
 
 
-@dataclass
+@struct.dataclass
 class TrainStatePmap:
     """
     Pmap-friendly train state holding params, EMA params, opt state, and step.
