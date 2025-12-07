@@ -601,7 +601,7 @@ import jax
 import jax.numpy as jnp
 import numpy as np  # chỉ dùng cho tiện tạo array, sau đó convert sang jnp
 
-from .nn import mean_flat   # JAX version bạn đã port
+from .nn_jax import mean_flat   # JAX version bạn đã port
 from .losses import normal_kl, discretized_gaussian_log_likelihood  # JAX version
 from .bernoulli import BernoulliLikelihood  # JAX version
 
