@@ -54,9 +54,10 @@ class LSA(nn.Module):
         # tách q, k, v
         qkv = qkv.reshape(b, n, 3, self.heads, self.dim_head)
         q, k, v = jnp.split(qkv, 3, axis=2)
-        q = q.squeeze(2)   # (b, h, n, d)
-        k = k.squeeze(2)
-        v = v.squeeze(2)
+        # reshape to (b, h, n, d)
+        q = jnp.transpose(q.squeeze(2), (0, 2, 1, 3))
+        k = jnp.transpose(k.squeeze(2), (0, 2, 1, 3))
+        v = jnp.transpose(v.squeeze(2), (0, 2, 1, 3))
 
         # attention scores
         dots = jnp.einsum('bhid,bhjd->bhij', q, k) * scale  # (b, h, n, n)
