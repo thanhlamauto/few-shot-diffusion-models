@@ -177,7 +177,9 @@ def init_models(rng: PRNGKey, cfg: VFSDDPMConfig):
         (1, cfg.in_channels, cfg.image_size, cfg.image_size), dtype=jnp.float32
     )
     dummy_t = jnp.zeros((1,), dtype=jnp.int32)
-    dit_params = dit.init(rng_dit, dummy_x, dummy_t, c=None, y=None, train=False)
+    # include dummy context so conditioning projections are initialized
+    dummy_c = jnp.zeros((1, cfg.hdim), dtype=jnp.float32)
+    dit_params = dit.init(rng_dit, dummy_x, dummy_t, c=dummy_c, y=None, train=False)
 
     params = {"encoder": enc_params, "dit": dit_params}
     modules = {"encoder": enc, "dit": dit, "diffusion": diffusion}
