@@ -210,7 +210,8 @@ def encode_set(
         out = encoder.apply(params_enc, x_flat, train=train)
         hc = out["hc"].reshape(b, ns, -1).mean(axis=1)
     else:
-        out = encoder.apply(params_enc, x_set, train=train)
+        # for set encoder (sViT), call forward_set to get dict outputs
+        out = encoder.apply(params_enc, x_set, train=train, method=encoder.forward_set)
         hc = out["hc"]
         if hc.ndim == 3:
             hc = hc.mean(axis=1)
