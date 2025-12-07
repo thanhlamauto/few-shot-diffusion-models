@@ -147,6 +147,7 @@ def sample(
 # ----------------------- Pmap multi-device utilities ----------------------- #
 
 
+@dataclass
 class TrainStatePmap:
     """
     Pmap-friendly train state holding params, EMA params, opt state, and step.
