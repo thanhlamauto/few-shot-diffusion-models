@@ -8,7 +8,7 @@ import jax
 import jax.numpy as jnp
 import numpy as np
 
-from .nn import mean_flat   # JAX version
+from .nn_jax import mean_flat  # JAX-compatible mean over non-batch dims
 from .losses import normal_kl, discretized_gaussian_log_likelihood  # JAX version
 from .bernoulli import BernoulliLikelihood  # JAX version
 
